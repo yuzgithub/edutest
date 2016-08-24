@@ -1,0 +1,80 @@
+<body style="padding-top:60px">
+
+    <div class="col-xs-10 col-xs-offset-1">
+        <h1 align="center" class="allerta" style="font-size:41px;margin-bottom:30px;">Major Ranking</h1>
+    </div>
+    
+    <div class="col-xs-10 col-xs-offset-1">
+        
+        <div>
+            <form class="form-inline">
+                        <label>Degree : </label>
+                        <select class="form-control" style="width:15%;" id="degree">
+                            <option value="Undergraduate">Undergraduate</option>
+                            <option value="Graduate Schools">Graduate Schools</option>
+                        </select>
+                        <label> Program : </label>
+                        <select class="form-control" style="width:16%;" id="major">
+                            <option value="Engineering">Engineering</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Financial">Financial</option>
+                            <option value="Law">Law</option>
+                            <option value="Education">Education</option>
+                            <option value="Art">Art</option>
+                            <option value="Law">Law</option>
+                            <option value="Economics">Economics</option>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Math">Math</option>
+                            <option value="Nursing">Nursing</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Biological Science">Biological Science</option>
+                            <option value="Nursing">Nursing</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Geoscience">Geoscience</option>
+                            <option value="Social Science">Social Science</option>
+                        </select>
+                        <button class="btn btn-primary" style="margin-left:8px" ng-click="model.getRank();">search</button>
+            </form>
+        </div>
+
+        <div class="tab-content" id="firstpage">
+            <table class="table table-striped">
+                <tr ng-repeat="school in model.frontpage">
+                    <td class="col-xs-1">
+                        1
+                    </td>
+                    <td class="col-xs-4">
+                        <img src="image/neu.png" style="height:25px">
+                    </td>
+                    <td class="col-xs-5">
+                        <a>{{school}}</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+      <!-- Tab panes -->
+      <div class="tab-content" style="">
+            <table class="table table-striped">
+                <tr ng-repeat="school in model.mrank">
+                    <td class="col-xs-1">
+                        1
+                    </td>
+                    <td class="col-xs-4">
+                        <img src="image/neu.png" style="height:25px">
+                    </td>
+                    <td class="col-xs-5">
+                        <a>{{school}}</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+
+
+       
+
+
+    </div>
+</body>
