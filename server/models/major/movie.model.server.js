@@ -1,11 +1,18 @@
+var q = require("q");
 
-
-module.exports = function (app) {
-    var school = {
-        id: "12",
-        name: "University of Florida",
+module.exports = function() {
+    // load movie schema from movie model
+    var movie= {
+        id: "13",
+        name: "Boston University",
         image: "image/ufl.png",
         loc: "Gainesville,FL",
+        usrank:"47",
+        thewrank:"27",
+        thenrank:"27",
+        qswrank:"27",
+        qsnrank:"37",
+        image: "image/neu.png",
         web: "ufl.edu",
         rank: "47",
         overview: "University of Florida is a public institution that was founded in 1853. It has a total undergraduate enrollment of 33,720, its setting is suburban, and the campus size is 2,000 acres. It utilizes a semester-based academic calendar. University of Florida's ranking in the 2016 edition of Best Colleges is National Universities, 47. Its in-state tuition and fees are $6,313 (2014-15); out-of-state tuition and fees are $28,591 (2014-15).The University of Florida is about two miles away from downtown Gainesville, a college town bolstered by the school’s nearly 50,000 students. The Florida Gators sports teams compete in the NCAA Division I Southeastern Conference, and are supported by mascots Albert and Alberta the Alligators. The Gator football team, which competes in Ben Hill Griffin Stadium — commonly called the 'The Swamp' — is particularly notorious. The team became the namesake of popular sports drink Gatorade in 1966, after freshmen Gators experimented with the novel beverage. The annual Gator Growl, held each Homecoming weekend, has been called the largest student-run pep rally in the world. About 15 percent of students are involved in the school’s 60-plus fraternities and sororities. Freshmen do not have to live on campus, though about 80 percent opt to do so. All students can partake in Gator Nights, held every Friday, which offer free late-night entertainment and a free midnight breakfast.The school has well-regarded graduate programs through the engineering school, Hough Graduate School of Business, Levin College of Law and the College of Medicine. The university is also integrated with retirement community Oak Hammock, where students can work, complete internships in health sciences and find mentors. Famous graduates of the University of Florida include home repair television sensation Bob Vila, Heisman Trophy winner Steve Spurrier and former U.S. Sens. Bob Graham and Connie Mack.",
@@ -55,67 +62,98 @@ module.exports = function (app) {
                 "Master of International Business"]
         }]
     };
+    var mongoose = require("mongoose");
+    var MovieSchema = require("./movie.schema.server.js")(mongoose);
 
-    var rank = {
-        usrank: [{_id: "1", rank: "1", image: "image/neu.png", name: "Princeton University"},
-            {_id: "2", rank: "2", image: "image/neu.png", name: "Havard University"},
-            {_id: "3", rank: "3", image: "image/neu.png", name: "Yale University"},
-            {_id: "4", rank: "4", image: "image/neu.png", name: "Columbia University"},
-            {_id: "5", rank: "5", image: "image/neu.png", name: "Stanford University"}
-        ], therank: [{_id: "1", nrank: "1", wrank: "1", image: "image/neu.png", name: "Princeton University"},
-            {_id: "2", nrank: "1", wrank: "2", image: "image/neu.png", name: "Havard University"},
-            {_id: "3", nrank: "1", wrank: "3", image: "image/neu.png", name: "Yale University"},
-            {_id: "4", nrank: "1", wrank: "4", image: "image/neu.png", name: "Columbia University"},
-            {_id: "5", nrank: "1", wrank: "5", image: "image/neu.png", name: "Stanford University"}
-        ], qsrank: [{_id: "1", nrank: "1", wrank: "1", image: "image/neu.png", name: "Princeton University"},
-            {_id: "2", nrank: "1", wrank: "2", image: "image/neu.png", name: "Havard University"},
-            {_id: "3", nrank: "1", wrank: "3", image: "image/neu.png", name: "Yale University"},
-            {_id: "4", nrank: "1", wrank: "4", image: "image/neu.png", name: "Columbia University"},
-            {_id: "5", nrank: "1", wrank: "5", image: "image/neu.png", name: "Stanford University"}
-        ]
+    // create movie from schema
+    var MovieModel  = mongoose.model("Movie", MovieSchema);
+
+    var api = {
+        findMovieByImdbID: findMovieByImdbID,
+        findAll: findAll,
+
     };
+    return api;
 
+    function findAll() {
+        var deferred = q.defer();
 
-    var mrank = {
-        major: "Engineering", degree: "Undergraduate", rank: ["Princeton University", "Havard University",
-            "Massachusetts Institute of Technology"]
-    };
-    // app.post("/api/website/:websiteId/page",createPage);
-    // app.get("/api/website/:websiteId/page",findAllPagesForWebsite);
-    // app.put("/api/page/:pageId",updatePage);
-    // app.get("/api/page/:pageId",findPageById);
-    // app.delete("/api/page/:pageId",deletePage);
-    app.get("/api/college/:id", getschoolbyId);
-    app.get("/api/mrank/:degree/:major", getmrank);
-    app.get("/api/us", getusnews);
+        MovieModel
+            .find(
+                {},
+                function(err, doc) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(doc);
+                    }
+                }
+            );
 
-
-//     function createPage(req, res) {
-//     var newPage = req.body;
-//     pages.push(newPage);
-//     res.send(pages);
-// }
-/////////////////////////////////////////page setting funtion//////////////////////////////////////
-// ranking.html
-
-    function getusnews(req, res) {
-        res.send(rank);
+        return deferred.promise;
     }
 
-//majorranking.html
-    function getmrank(req, res) {
-        var degree = req.query.degree;
-        var major = req.query.major;
-        res.send(mrank);
+    function findMovieByImdbID(id) {
+        var deferred = q.defer();
+
+            MovieModel
+            .create(
+                movie,
+                function(err, doc) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(doc);
+                    }
+                }
+            );
+            // .findOne(
+            //     {id: id},
+            //     function(err, doc) {
+            //         if (err) {
+            //             deferred.reject(err);
+            //         } else {
+            //             deferred.resolve(doc);
+            //         }
+            //     }
+            // );
+
+        return deferred.promise;
     }
 
+    // function userUnlikesMovie(userId, imdbID) {
+    //     var deferred = q.defer();
+    //
+    //     MovieModel
+    //         .findOne(
+    //             {imdbID: imdbID},
+    //             function(err, doc) {
+    //                 if (err) {
+    //                     deferred.reject(err);
+    //                 }
+    //                 if (doc) {
+    //                     var index = doc.likes.indexOf(userId);
+    //                     if (index > -1) {
+    //                         doc.likes.splice(index, 1);
+    //                         // save the change
+    //                         doc.save(
+    //                             function(err, doc) {
+    //                                 if (err) {
+    //                                     deferred.reject(err);
+    //                                 } else {
+    //                                     deferred.resolve(doc);
+    //                                 }
+    //                             }
+    //                         );
+    //                     }
+    //                 } else {
+    //                     // do nothing here
+    //                 }
+    //             }
+    //         );
+    //
+    //     return deferred.promise;
+    // }
 
-    function getschoolbyId(req, res) {
-        var id = req.params["id"];
-        res.send(school);
 
-    }
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+};

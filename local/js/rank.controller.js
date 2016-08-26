@@ -4,13 +4,17 @@ app.controller("cRankController",cRankController)
 function cRankController(dataAPI)
 {
 	var vm = this;
-	dataAPI.getUsRank(function(res)
+	dataAPI.getUsRank(function(response)
 	{
-		vm.usrank = res.usrank;
-		vm.therank = res.therank;
-		vm.qsrank = res.qsrank;
+		// vm.usrank = res.usrank;
+		// vm.therank = res.therank;
+		// vm.qsrank = res.qsrank;
+		vm.ranking = response;
 	});
 }
+
+
+
 
 function mRankController(dataAPI)
 {

@@ -3,7 +3,13 @@ module.exports = function() {
 
     var MovieSchema = mongoose.Schema(
         {
+            id:String,
             name: String,
+            usrank:String,
+            thenrank:String,
+            thewrank:String,
+            qswrank:String,
+            qsnrank:String,
             image: String,
             loc: String,
             web: String,
@@ -39,11 +45,11 @@ module.exports = function() {
             total: String,
             interaid: String,
             salary: String,
-            undermajor: [],
-            gradumajor: [],
+            // undermajor: [],
+            // gradumajor: [],
 
 
-        }, {collection: 'assignment.school'});
+        }, {collection: 'assignment.movie'});
 
-    return SchoolSchema;
+    return MovieSchema;
 };
