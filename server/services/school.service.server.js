@@ -128,10 +128,10 @@ module.exports = function (app,models) {
         var id = req.params["id"];
 
         schoolModel
-            .findschoolById(id)
+            .findSchoolById(id)
             .then(
-                function(movie) {
-                    res.json(movie);
+                function(movie1) {
+                    res.json(movie1);
                 },
                 function(err) {
                     res.status(400).send(err);
